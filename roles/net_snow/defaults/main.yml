@@ -1,0 +1,11 @@
+---
+snow_mode: incident
+snow_group: Network
+snow_category: network
+snow_req_user: ansible
+snow_title: My Incident
+snow_description: My Description
+snow_notes: My Notes
+snow_urgency: medium
+snow_impact: medium
+snow_priority: 3

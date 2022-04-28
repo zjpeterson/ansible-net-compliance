@@ -1,0 +1,24 @@
+---
+- name: NTP Configuration (JunOS)
+  junipernetworks.junos.junos_ntp_global:
+    config: "{{ net_ntp }}"
+    state: replaced
+  register: ntp_out
+
+# junos_snmp_server wants an "authorization" parameter set instead of a ro/rw boolean
+# this behavior is in the minority among other platforms, so we change it here
+- name: Prepare SNMP data (JunOS)
+  vars:
+    _new:
+      name: "{{ item.name }}"
+      authorization: "{% if item.rw | default(false) %}read-write{% else %}read-only{% endif %}"
+  ansible.builtin.set_fact:
+    net_snmp_communities: "{{ net_snmp_communities | default([]) + [_new] }}"
+  loop: "{{ net_snmp.communities }}"
+
+- name: SNMP Configuration (JunOS)
+  junipernetworks.junos.junos_snmp_server:
+    config:
+      communities: "{{ net_snmp_communities }}"
+    state: replaced
+  register: snmp_out

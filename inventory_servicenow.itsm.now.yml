@@ -1,0 +1,19 @@
+---
+plugin: servicenow.itsm.now
+table: cmdb_ci_netgear
+columns:
+  - name
+  - ip_address
+  - model_id
+  - sys_id
+  - location
+query:
+  - model_id.name: = vEOS
+  - model_id.name: = Nexus 9000v
+  - model_id.name: = vMX
+groups:
+  na: "'Americas' in location"
+  emea: "'Emea' in location"
+  eos: "'Arista' in model_id"
+  nxos: "'Cisco Nexus' in model_id"
+  junos: "'Juniper' in model_id"

@@ -1,0 +1,3 @@
+---
+- ansible.builtin.include_tasks: inc_pre.yml
+- ansible.builtin.include_tasks: inc_post.yml

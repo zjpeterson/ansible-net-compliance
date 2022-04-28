@@ -1,0 +1,4 @@
+{{ csv_header | join(',') }}
+{% for row in csv_data %}
+{{ row | join(',') }}
+{% endfor %}

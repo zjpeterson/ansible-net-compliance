@@ -1,0 +1,13 @@
+---
+- name: Resolve incident
+  servicenow.itsm.incident:
+    state: resolved
+    sys_id: "{{ snow_incident.record.sys_id }}"
+    close_code: Solved (Permanently)
+    close_notes: Changed by automation
+    other:
+      work_notes: "{{ snow_notes }}"
+
+- name: Display incident number
+  ansible.builtin.debug:
+    msg: Changes recorded in {{ snow_incident.record.number }}

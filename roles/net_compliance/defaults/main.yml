@@ -1,0 +1,18 @@
+---
+net_set_table: yes
+net_sw_ver:
+  arista.eos.eos: 4.23.5M-cloud
+  junipernetworks.junos.junos: 18.2R1.9
+  cisco.nxos.nxos: 9.2(4)
+net_ntp:
+  servers:
+    - server: 159.89.86.140
+    - server: 64.6.144.6
+    - server: 23.95.169.235
+    - server: 104.236.167.15
+net_snmp:
+  communities:
+    - name: MySNMP1
+      ro: yes
+    - name: MySNMP2
+      rw: yes

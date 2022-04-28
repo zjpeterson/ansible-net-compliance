@@ -1,0 +1,4 @@
+---
+- name: Display table to console
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'table.j2') }}"

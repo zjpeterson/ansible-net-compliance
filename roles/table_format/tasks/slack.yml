@@ -1,0 +1,7 @@
+---
+- name: Send Slack message
+  community.general.slack:
+    token: "{{ table_slack_token }}"
+    channel: "{{ table_chat_channel }}"
+    msg: "{{ lookup('template', 'table.j2') }}"
+  check_mode: no

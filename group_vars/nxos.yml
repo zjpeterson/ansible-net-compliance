@@ -1,0 +1,15 @@
+---
+ansible_network_os: cisco.nxos.nxos
+ansible_connection: ansible.netcommon.network_cli
+ansible_command_timeout: 60
+ansible_connect_timeout: 60
+net_snmp_builtin_users:
+  auth:
+    - user: admin
+      group: network-admin
+      authentication:
+        algorithm: md5
+        localized_key: yes
+        password: redacted
+        priv:
+          privacy_password: redacted

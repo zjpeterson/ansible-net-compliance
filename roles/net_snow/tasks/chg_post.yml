@@ -1,0 +1,25 @@
+---
+- name: Implement change request
+  servicenow.itsm.change_request:
+    state: implement
+    description: "{{ snow_description }}"
+    sys_id: "{{ snow_ci.record.sys_id }}"
+    other:
+      work_notes: "{{ snow_notes }}"
+
+- name: Review change request
+  servicenow.itsm.change_request:
+    state: review
+    description: "{{ snow_description }}"
+    sys_id: "{{ snow_ci.record.sys_id }}"
+
+- name: Close change request
+  servicenow.itsm.change_request:
+    state: closed
+    close_code: successful
+    close_notes: Closed by automation
+    sys_id: "{{ snow_ci.record.sys_id }}"
+
+- name: Display change number
+  ansible.builtin.debug:
+    msg: Changes recorded in {{ snow_ci.record.number }}

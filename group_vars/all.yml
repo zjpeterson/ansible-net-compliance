@@ -1,0 +1,7 @@
+---
+net_snmp:
+  communities:
+    - name: My_R34dC0mmun1ty
+      ro: yes
+    - name: My_Wr1t3C0mmun1ty
+      rw: yes

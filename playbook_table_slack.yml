@@ -1,0 +1,13 @@
+---
+- name: Network device compliance
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Display table in Slack
+    vars:
+      table_mode: slack
+      table_slack_token: "{{ slack_token }}"
+    include_role:
+      name: table_format

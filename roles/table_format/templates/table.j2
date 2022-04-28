@@ -1,0 +1,45 @@
+{#- this template expects a list of header columns in `table_header`, and a list of lists -#}
+{#- in `table_data` containing row data, each child list the same length as the header list -#}
+{#- WARNING: data cells wider than their header won't print correctly; plan for this when setting headers! -#}
+
+{#- print header -#}
+*{{ table_title }}*
+```
++{%- for col in table_header -%}
+{%- for x in range((col | length) + 2 ) -%}
+-
+{%- endfor -%}
+{%- endfor -%}
+{%- for x in range((table_header | length) - 1) -%}
+-
+{%- endfor -%}+
+|{%- for col in table_header %}
+ {{ col }} |
+{%- endfor %}
+
+{# print header separator -#}
+| {%- for col in table_header %}
+ {% for x in range( col | length) -%}
+-
+{%- endfor %}
+ |{%- endfor %}
+
+{# print data -#}
+
+{%- for row in table_data -%}
+|{% for col in row -%}
+{%- set col_expr = "{:" + table_justify + ((table_header[loop.index0]|length) + 1) | string + "}" -%}
+{% if table_justify == '<' %}{{ ' ' + col_expr.format(col) + '|' }}{% else %}{{ col_expr.format(col) + ' |' }}{% endif %}
+{%- endfor %}
+
+{% endfor -%}
+{#- print footer #}
++{%- for col in table_header -%}
+{%- for x in range((col | length) + 2 ) -%}
+-
+{%- endfor -%}
+{%- endfor -%}
+{%- for x in range((table_header | length) - 1) -%}
+-
+{%- endfor -%}+
+```

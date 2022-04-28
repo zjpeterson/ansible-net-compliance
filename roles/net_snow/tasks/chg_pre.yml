@@ -1,0 +1,22 @@
+---
+- name: Create change request
+  servicenow.itsm.change_request:
+    category: "{{ snow_category }}"
+    state: new
+    type: standard
+    requested_by: "{{ snow_req_user }}"
+    short_description: "{{ snow_title }}"
+    description: "{{ snow_description }}"
+    other:
+      cmdb_ci: "{{ inventory_hostname }}"
+    attachments:
+      - name: Compliance report prior to change.csv
+        path: "{{ playbook_dir }}/data.csv"
+        type: text/csv
+  register: snow_ci
+
+- name: Assign change request
+  servicenow.itsm.change_request:
+    state: scheduled
+    assignment_group: "{{ snow_group }}"
+    sys_id: "{{ snow_ci.record.sys_id }}"

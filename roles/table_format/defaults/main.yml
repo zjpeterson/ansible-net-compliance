@@ -1,0 +1,15 @@
+---
+table_mode: debug
+table_title: My Table
+table_justify: "<"
+table_header:
+  - First
+  - Second
+  - "Third      "
+table_data:
+  - [1,2,'three']
+  - [400,500,'six hundred']
+# Chat-specific
+table_chat_channel: ansible
+# Slack-spcific
+table_slack_token: xoxb-xx-yy-zz

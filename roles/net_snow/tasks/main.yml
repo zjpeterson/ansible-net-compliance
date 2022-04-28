@@ -1,0 +1,8 @@
+---
+- name: Save table data as CSV
+  ansible.builtin.template:
+    src: data.csv.j2
+    dest: "{{ playbook_dir }}/data.csv"
+  run_once: yes
+
+- ansible.builtin.include_tasks: "{{ snow_mode }}.yml"

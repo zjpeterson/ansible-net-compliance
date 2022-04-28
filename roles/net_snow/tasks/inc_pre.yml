@@ -1,0 +1,18 @@
+---
+- name: Create incident
+  servicenow.itsm.incident:
+    state: new
+    caller: "{{ snow_req_user }}"
+    short_description: "{{ snow_title }}"
+    description: "{{ snow_description }}"
+    urgency: "{{ snow_urgency }}"
+    impact: "{{ snow_impact }}"
+    other:
+      cmdb_ci: "{{ inventory_hostname }}"
+      category: "{{ snow_category }}"
+      priority: "{{ snow_priority }}"
+    attachments:
+      - name: Compliance report prior to change.csv
+        path: "{{ playbook_dir }}/data.csv"
+        type: text/csv
+  register: snow_incident

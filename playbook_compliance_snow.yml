@@ -1,0 +1,26 @@
+---
+- name: Network device compliance
+  hosts: all
+  gather_facts: yes
+
+  tasks:
+  - name: Run compliance tasks
+    include_role:
+      name: net_compliance
+
+  - name: Record changes in ServiceNow
+    vars:
+      snow_mode: change
+      snow_title: Address compliance issues by automation
+      snow_group: Network
+      snow_category: network
+      snow_description: Compliance changes have been implemented; see work notes
+      snow_notes: |
+        Commands ran:
+        {{ net_all_commands | join('
+        ') }}
+    include_role:
+      name: net_snow
+    when:
+      - not ansible_check_mode
+      - net_needs_change | default(false)
