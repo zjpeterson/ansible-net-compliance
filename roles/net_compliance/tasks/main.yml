@@ -2,12 +2,20 @@
 - name: Include OS-specific tasks
   ansible.builtin.include_tasks: "{{ ansible_network_os }}.yml"
 
+- name: NTP Configuration
+  ansible.netcommon.network_resource:
+    name: ntp_global
+    state: replaced
+    config: "{{ net_ntp }}"
+  notify: save {{ ansible_network_os }} config
+  register: ntp_out
+
 - name: Set ticketing flag
   ansible.builtin.set_fact:
     net_needs_change: yes
   when: >-
-    ntp_out.changed or
-    snmp_out.changed
+    user_out.changed or
+    ntp_out.changed
 
 - name: Set table variables if requested
   ansible.builtin.include_tasks: table.yml
@@ -15,10 +23,10 @@
 
 - name: Determine commands
   vars:
-    _new: "{{ item.commands }}"
+    _new: "{{ item.commands | default([]) }}"
   ansible.builtin.set_fact:
     net_all_commands: "{{ net_all_commands | default([]) + _new }}"
   loop:
+    - "{{ user_out }}"
     - "{{ ntp_out }}"
-    - "{{ snmp_out }}"
   when: net_needs_change | default(false)
