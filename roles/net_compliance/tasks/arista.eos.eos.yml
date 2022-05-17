@@ -1,19 +1,10 @@
 ---
-- name: NTP Configuration (EOS)
-  arista.eos.eos_ntp_global:
-    config: "{{ net_ntp }}"
-    state: replaced
-  notify: save eos config
-  register: ntp_out
+- name: Gather facts
+  arista.eos.eos_facts:
+    gather_subset: min
 
-# dummy ACL due to https://github.com/ansible-collections/arista.eos/issues/334
-- name: SNMP Configuration (EOS)
-  vars:
-    _acl:
-      acl_v4: demo
-  arista.eos.eos_snmp_server:
-    config:
-      communities: "{{ net_snmp.communities | map('combine', _acl) }}"
-    state: replaced
-  notify: save eos config
-  register: snmp_out
+- name: Purge local users
+  arista.eos.eos_user:
+    purge: yes
+  notify: save arista.eos.eos config
+  register: user_out

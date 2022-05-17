@@ -1,28 +1,20 @@
 ---
-# nxos makes you specify a vrf or it will assume default
-# this breaks compliance checking, so we have to specify it explicitly
-- name: NTP Configuration (NX-OS)
+- name: Gather facts
+  cisco.nxos.nxos_facts:
+    gather_subset: min
+
+- name: Purge local users
+  cisco.nxos.nxos_user:
+    purge: yes
+  notify: save cisco.nxos.nxos config
+  register: user_out
+
+# NX-OS requires that you specify a VRF for NTP
+# This deviates from the other platforms, so we modify the data here
+- name: Update NTP Configuration
   vars:
     _vrf:
-      use_vrf: default
-  cisco.nxos.nxos_ntp_global:
-    config:
+      vrf: "{{ net_ntp_vrf }}"
+  ansible.builtin.set_fact:
+    net_ntp:
       servers: "{{ net_ntp.servers | map('combine', _vrf) }}"
-    state: replaced
-  notify: save nxos config
-  register: ntp_out
-
-# nxos_snmp_server wants the community name key to be "community" instead of "name"
-# this behavior is in the minority among other platforms, so we change it here
-- name: SNMP Configuration (NX-OS)
-  vars:
-    _query: "communities[].{community: name}"
-    _group:
-      group: network-operator
-  cisco.nxos.nxos_snmp_server:
-    config:
-      users: "{{ net_snmp_builtin_users }}" # built-in config we can't get rid of if using state replaced
-      communities: "{{ net_snmp | community.general.json_query(_query) | map('combine', _group) }}"
-    state: replaced
-  notify: save nxos config
-  register: snmp_out

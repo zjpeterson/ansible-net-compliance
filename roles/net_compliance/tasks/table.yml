@@ -5,8 +5,8 @@
     _row:
       - "{{ hostvars[item]['inventory_hostname'] }}"
       - "{{ hostvars[item]['ansible_net_version'] }}{% if hostvars[item]['ansible_net_version'] != net_sw_ver[hostvars[item]['ansible_network_os']] %} (!){% endif %}"
+      - "{% if hostvars[item]['user_out']['changed'] %}NO (!){% else %}YES{% endif %}"
       - "{% if hostvars[item]['ntp_out']['changed'] %}NO (!){% else %}YES{% endif %}"
-      - "{% if hostvars[item]['snmp_out']['changed'] %}NO (!){% else %}YES{% endif %}"
   ansible.builtin.set_fact:
     table_data_tmp: "{{ table_data_tmp | default([]) + [_row] }}"
   loop: "{{ ansible_play_hosts }}"
@@ -18,8 +18,8 @@
     csv_header:
         - Device Name
         - SW Version
-        - NTP OK
-        - SNMP OK
+        - Local users OK
+        - NTP Config OK
 
 - name: Save table data as artifact
   ansible.builtin.set_stats:
@@ -29,7 +29,7 @@
       table_header:
         - Device Name
         - "SW Version         "
-        - NTP OK
-        - SNMP OK
+        - Local users OK
+        - NTP Config OK
     aggregate: no
   run_once: yes
