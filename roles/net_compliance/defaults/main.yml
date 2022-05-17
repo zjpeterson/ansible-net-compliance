@@ -6,13 +6,6 @@ net_sw_ver:
   cisco.nxos.nxos: 9.2(4)
 net_ntp:
   servers:
-    - server: 159.89.86.140
-    - server: 64.6.144.6
-    - server: 23.95.169.235
-    - server: 104.236.167.15
-net_snmp:
-  communities:
-    - name: MySNMP1
-      ro: yes
-    - name: MySNMP2
-      rw: yes
+    - server: 1.1.1.1
+    - server: 1.1.1.2
+net_ntp_vrf: default
