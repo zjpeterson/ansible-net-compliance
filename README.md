@@ -13,7 +13,7 @@ This is a Network Compliance demo I put together for Red Hat Automation Everywhe
 ## Roles
 
 ### net_compliance
-Runs configuration compliance with select network resources (currently `ntp_global` and `snmp_server`). Makes changed data available for use in subsequent tasks (specifically the `net_snow` role). Generates a summary table of results.
+Runs configuration compliance with select network resources (currently just `ntp_global`) as well as local users (which are not considered to be a "resource"). Makes changed data available for use in subsequent tasks (specifically the `net_snow` role). Generates a summary table of results.
 
 ### net_snow
 Records change activity in ServiceNow. Intended for use with networking use cases, but could also be used for other tasks.
